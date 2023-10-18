@@ -1,2 +1,2 @@
 # PRJSUPBACCPERR
-Projet supervision Bacchetta Peraud USMB Master 2
+Projet supervision Bacchetta Perraud USMB Master 2
