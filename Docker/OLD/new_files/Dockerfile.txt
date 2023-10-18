@@ -1,0 +1,19 @@
+# Utiliser une image de base Python
+FROM python:3.8-slim
+
+# Définir le répertoire de travail
+WORKDIR /app
+
+# Copier les fichiers de requirements et installer les dépendances
+COPY requirements.txt requirements.txt
+RUN pip install -r requirements.txt
+
+# Copier le reste des fichiers de l'application
+COPY . .
+
+# Exposer le port sur lequel l'application s'exécutera
+EXPOSE 5000
+
+# Définir la commande pour démarrer l'application avec Gunicorn
+# Remplacez "your_flask_app" par le nom de votre module Flask principal si ce n'est pas "your_flask_app"
+CMD ["gunicorn", "-b", "0.0.0.0:5000", "your_flask_app:app"]
