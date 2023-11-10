@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="IE=edge" http-equiv="X-UA-Compatible" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Supervision SNMP</title>
+</head>
+
+<body>
+    <h1>Supervision SNMP</h1>
+    <table>
+    <tr>
+        <th>ID</th>
+        <th>Description</th>
+        <th>Nom de la Machine</th>
+        <th>Adresse IP</th>
+        <th>Interval de Monitoring</th>
+    </tr>
+    {% for host in hosts %}
+    <tr>
+        <td>{{ host.id }}</td>
+        <td>{{ host.description }}</td>
+        <td>{{ host.nom_machine }}</td>
+        <td>{{ host.ip_address }}</td>
+        <td>{{ host.monitoring_interval }}</td>
+    </tr>
+    {% endfor %}
+    </table>
+    <form action="/snmp_request" method="post">
+        <br />
+        <select id="host" name="host">
+            {% for host in hosts %}
+            <option value="{{ host.ip_address }}">{{ host.ip_address }}</option>
+            {% endfor %}
+        </select>
+        <br />
+        <br />
+        <select id="oid" name="oid">
+            {% for oid in oids %}
+            <option value="{{ oid.oid_value }}">{{ oid.description }}</option>
+            {% endfor %}
+        </select>
+        <br />
+        <br />
+        <input type="submit" value="Effectuer la requête SNMP" />
+    </form>
+    <form action="/add_machine" method="post">
+        Description: <input name="description" required="" type="text" /><br />
+        Nom machine: <input name="nom_machine" required="" type="text" /><br />
+        Adresse IP: <input name="host" required="True" type="text" /><br />
+        Intervalle de surveillance: <input name="monitoring_interval" type="text" /><br />
+        <br />
+        <br />
+        <input type="submit" value="Ajouter machine" />
+    </form>
+    <form action="/delete_machine" method="post">
+        Nom machine: <input name="machine_to_delete" required="" type="text" /><br />
+        <br />
+        <br />
+        <input type="submit" value="Supprimer machine" />
+    </form>
+
+    <hr />
+    <h2>Résultats:</h2>
+    {% for result in results %}
+    <p>{{ result }}</p>
+    {% endfor %}
+</body>
+
+</html>
