@@ -1,0 +1,19 @@
+{
+  "dependencies": {
+    "apollo-boost": "^0.4.9",
+    "graphql-request": "^6.1.0",
+    "node-fetch": "^3.3.2",
+    "urql": "^4.0.5"
+  },
+  "name": "projet-trajet-elec",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "graphql.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
