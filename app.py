@@ -138,8 +138,9 @@ def logs_machine():
     graph_data = {"temps": [], "val_num": []}
     if request.method == 'POST':
         nom_machine = request.form.get('nom_machine')
+        oid_value = request.form.get('oid_value')
         if nom_machine:
-            logs = Logs.query.filter_by(nom_machine=nom_machine).all()
+            logs = Logs.query.filter_by(nom_machine=nom_machine, oid_value=oid_value).all()
             graph_data["temps"] = [log.temps for log in logs]
             graph_data["val_num"] = [log.val_num for log in logs]
     return render_template('logs_machine.html', logs=logs, graph_data=graph_data)
