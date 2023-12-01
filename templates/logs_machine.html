@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+     <title>Logs SNMP</title>
+    <!-- Metadonnées, liens CSS, etc. -->
+     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>     
+</head>
+<body>
+    <form action="/logs_machine" method="post">
+        ip de la machine: <input type="text" name="nom_machine">
+        oid: <input type="text" name="oid_value">
+        <input type="submit" value="Afficher les logs">
+    </form>
+    <a href="http://10.0.0.4:5000">
+       <button type="button">Accueil</button>
+    </a>
+        <h2>
+
+    {% if logs %}
+        <h2>Logs pour {{ request.form.nom_machine }}:</h2>
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Date</>
+                <th>Nom de la Machine</th>
+                <th>OID Value</th>
+                <th>Val Text</th>
+                <th>Val Num</th>
+            </tr>
+            {% for log in logs %}
+            <tr>
+                <td>{{ log.id }}</td>
+                <td>{{ log.temps }}</td>
+                <td>{{ log.nom_machine }}</td>
+                <td>{{ log.oid_value }}</td>
+                <td>{{ log.val_text }}</td>
+                <td>{{ log.val_num }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>Aucun log trouvé pour cette machine.</p>
+    {% endif %}
+   <canvas id="logsGraph" width="400" height="200"></canvas>
+
+   <script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        var ctx = document.getElementById('logsGraph').getContext('2d');
+        var temps = {{ graph_data.temps | tojson | safe }};
+        var valNum = {{ graph_data.val_num | tojson | safe }};
+
+        var chart = new Chart(ctx, {
+            type: 'line', // Le type de graphique
+            data: {
+                labels: temps, // Axe X
+                datasets: [{
+                    label: 'Val Num',
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: valNum, // Axe Y
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    });
+   </script>
+</body>
+</html>
